@@ -52,7 +52,17 @@ qsort (x:xs)=qsort smaller++[x]++qsort bigger
 		smaller=[a|a<-xs,a<x]
 		bigger=[a|a<-xs,a>x]
 
+filter' :: (a -> Bool) -> [a] -> [a]   
+filter' _ [] = []   
+filter' p (x:xs)    
+    | p x       = x : filter' p xs   
+    | otherwise = filter' p xs		
 
+sum'::(Num a,Ord a)=>[a]->a
+sum' []=0
+sum' (x:xs)=x+sum' xs
+
+	
 -- isPrime x=[a|a<-[2..y],a>1,x>1,mod x a==0]==[]
 	-- where y=(floor (sqrt $ fromIntegral x)) 
 
@@ -64,12 +74,26 @@ primes (x:xs)=prime x++primes xs
 		where isPrime x=[a|a<-[2..y],a>1,mod x a==0]==[] && x>1
 			where y=(floor (sqrt $ fromIntegral x)) 
 
-			
-	
+pascal''::(Integral a)=>a->a->a
+pascal'' _ 1=1
+pascal'' x y
+	|x==y=1
+	|x>0&&y>0&&x>y=pascal'' (x-1) (y-1)+pascal'' (x-1) y
 		
-		
+pascal'::(Integral a)=>a->[a]
+pascal' 1=[1] 
+pascal' x=map (pascal'' x) [1..x]
+
+--concat $ map (show . pascal') [1..5]
+--concat $ map ((++ "\n") . show . pascal') [1..5]
+
+--pascal::(Integral a)=>a->IO()
+pascal x=putStr $ concat $ map ((++ "\n") . show . pascal') [1..x]
 
 	
+	
+
+
 
 
 
